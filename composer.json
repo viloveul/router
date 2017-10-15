@@ -1,0 +1,23 @@
+{
+    "name": "zafex/viloveul-router",
+    "description": "Router component of Viloveul.",
+    "type": "framework",
+    "license": "MIT",
+    "authors": [{
+        "name": "Fajrul Akbar Zuhdi",
+        "email": "fajrulaz@gmail.com"
+    }],
+    "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/var-dumper": "^3.1",
+        "zafex/viloveul-kernel": "dev-master",
+        "zafex/viloveul-http": "dev-master"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "\\Viloveul\\Router\\": "src/"
+        }
+    }
+}
