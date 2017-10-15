@@ -8,7 +8,7 @@ namespace Viloveul\Router;
  */
 
 use ReflectionMethod;
-use Viloveul\Core\Factory;
+use Viloveul\Kernel\Factory;
 
 class Dispatcher extends Factory
 {
