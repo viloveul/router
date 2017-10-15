@@ -10,7 +10,6 @@
     "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
     "minimum-stability": "stable",
     "require": {
-        "symfony/var-dumper": "^3.1",
         "zafex/viloveul-kernel": "dev-master",
         "zafex/viloveul-http": "dev-master"
     },
