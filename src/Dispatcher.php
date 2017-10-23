@@ -7,6 +7,7 @@ namespace Viloveul\Router;
  * @author Fajrul Akbar Zuhdi
  */
 
+use Closure;
 use ReflectionMethod;
 use Viloveul\Kernel\Factory;
 
@@ -96,7 +97,7 @@ class Dispatcher extends Factory
     /**
      * @return mixed
      */
-    public function fetchHandler()
+    public function fetchHandler(): Closure
     {
         return $this->handler;
     }
@@ -104,7 +105,7 @@ class Dispatcher extends Factory
     /**
      * @return mixed
      */
-    public function fetchParams()
+    public function fetchParams(): array
     {
         return $this->params;
     }
@@ -112,7 +113,7 @@ class Dispatcher extends Factory
     /**
      * @param $request
      */
-    protected function createSection($request)
+    protected function createSection($request, array &$sections = []): array
     {
         $sections = $this->segmentToArray($request);
         $path = $this->controllerDirectory;
@@ -158,7 +159,7 @@ class Dispatcher extends Factory
     /**
      * @param $string_segment
      */
-    protected function segmentToArray($string_segment)
+    protected function segmentToArray($string_segment): array
     {
         return preg_split('/\//', $string_segment, -1, PREG_SPLIT_NO_EMPTY);
     }
@@ -169,21 +170,23 @@ class Dispatcher extends Factory
      */
     protected function validate($request)
     {
-        list($class, $method, $vars) = $this->createSection($request);
+        $sections = [];
+
+        list($class, $method, $vars) = $this->createSection($request, $sections);
         // Set handler if exists
 
         if (class_exists($class, ($this->autoload === true))) {
             $availableMethods = get_class_methods($class);
             if (in_array('__invoke', $availableMethods, true)) {
                 return $this->promote(
-                    function ($args = []) use ($class) {
+                    function (array $args = []) use ($class) {
                         return call_user_func_array(new $class(), $args);
                     },
-                    array_merge(array(substr($method, 6)), $vars)
+                    array_slice($sections, 1)
                 );
             } elseif (in_array($method, $availableMethods, true)) {
                 return $this->promote(
-                    function ($args = []) use ($class, $method) {
+                    function (array $args = []) use ($class, $method) {
                         $reflection = new ReflectionMethod($class, $method);
 
                         return $reflection->invokeArgs(new $class(), $args);
@@ -205,14 +208,14 @@ class Dispatcher extends Factory
                     $eAvailableMethods = get_class_methods($eClass);
                     if (in_array('__invoke', $eAvailableMethods, true)) {
                         return $this->promote(
-                            function ($args = []) use ($eClass) {
+                            function (array $args = []) use ($eClass) {
                                 return call_user_func_array(new $eClass(), $args);
                             },
-                            preg_split('/\//', $request, -1, PREG_SPLIT_NO_EMPTY)
+                            $sections
                         );
                     } elseif (in_array($eMethod, $eAvailableMethods, true)) {
                         return $this->promote(
-                            function ($args = []) use ($eClass, $eMethod) {
+                            function (array $args = []) use ($eClass, $eMethod) {
                                 $reflection = new ReflectionMethod($eClass, $eMethod);
 
                                 return $reflection->invokeArgs(new $eClass(), $args);
@@ -223,10 +226,10 @@ class Dispatcher extends Factory
                 }
             } elseif (is_object($e404) && method_exists($e404, '__invoke')) {
                 return $this->promote(
-                    function ($args = []) use ($e404) {
+                    function (array $args = []) use ($e404) {
                         return call_user_func_array($e404, $args);
                     },
-                    preg_split('/\//', $request, -1, PREG_SPLIT_NO_EMPTY)
+                    $sections
                 );
             }
         }

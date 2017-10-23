@@ -42,7 +42,7 @@ class RouteCollection implements Iterator
     /**
      * @param $pattern
      */
-    public function has($pattern)
+    public function has($pattern): bool
     {
         return array_key_exists($pattern, $this->collections);
     }
@@ -62,7 +62,7 @@ class RouteCollection implements Iterator
         reset($this->collections);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return null !== $this->key();
     }
