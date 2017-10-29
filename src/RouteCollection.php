@@ -20,9 +20,10 @@ class RouteCollection implements Iterator
      * @param $pattern
      * @param $handler
      */
-    public function add($pattern, $handler)
+    public function add($pattern, $handler): RouteCollection
     {
         $this->collections[$pattern] = $handler;
+        return $this;
     }
 
     public function current()

@@ -9,9 +9,8 @@ namespace Viloveul\Router;
 
 use Closure;
 use ReflectionMethod;
-use Viloveul\Kernel\Factory;
 
-class Dispatcher extends Factory
+class Dispatcher
 {
     /**
      * @var mixed
@@ -47,10 +46,20 @@ class Dispatcher extends Factory
      * @param RouteCollection        $routes
      * @param $controllerDirectory
      */
-    public function __construct(RouteCollection $routes, $controllerDirectory = '/')
+    public function __construct(RouteCollection $collection, $controllerDirectory = '/')
     {
-        $this->routeCollection = $routes;
+        $this->routeCollection = $collection;
         $this->controllerDirectory = realpath($controllerDirectory);
+    }
+
+    /**
+     * @param  $key
+     * @param  $callback
+     * @return mixed
+     */
+    public function addCollection($key, $callback): RouteCollection
+    {
+        return $this->routeCollection->add($key, $callback);
     }
 
     /**
@@ -108,6 +117,15 @@ class Dispatcher extends Factory
     public function fetchParams(): array
     {
         return $this->params;
+    }
+
+    /**
+     * @param  $key
+     * @return mixed
+     */
+    public function hasCollection($key): bool
+    {
+        return $this->routeCollection->has($key);
     }
 
     /**
