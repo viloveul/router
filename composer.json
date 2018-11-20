@@ -1,5 +1,5 @@
 {
-    "name": "zafex/viloveul-router",
+    "name": "viloveul/router",
     "description": "Router component of Viloveul.",
     "type": "framework",
     "license": "MIT",
@@ -8,12 +8,7 @@
         "email": "fajrulaz@gmail.com"
     }],
     "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
-    "minimum-stability": "stable",
-    "require": {
-        "zafex/viloveul-kernel": "dev-master",
-        "zafex/viloveul-http": "dev-master"
-    },
-    "require-dev": {},
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Viloveul\\Router\\": "src/"
