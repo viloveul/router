@@ -10,8 +10,8 @@
     "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
     "minimum-stability": "stable",
     "require": {
-        "zafex/viloveul-kernel": "dev-master",
-        "zafex/viloveul-http": "dev-master"
+        "zafex/viloveul-kernel": "v0.1.*",
+        "zafex/viloveul-http": "v0.1.*"
     },
     "require-dev": {},
     "autoload": {
