@@ -10,6 +10,11 @@ use Viloveul\Router\NotFoundException;
 class Dispatcher implements IDispatcher
 {
     /**
+     * @var string
+     */
+    protected $base = '/';
+
+    /**
      * @var mixed
      */
     protected $collection = null;
@@ -26,21 +31,47 @@ class Dispatcher implements IDispatcher
     }
 
     /**
+     * @return mixed
+     */
+    public function getBase()
+    {
+        return $this->base;
+    }
+
+    /**
+     * @param $base
+     */
+    public function setBase($base)
+    {
+        $this->base = $base;
+    }
+
+    /**
      * @param $method
      * @param $request
      */
     public function watch($method, $request)
     {
-        foreach ($this->collection as $route) {
-            if (in_array($method, $route['methods']) || in_array('any', $route['methods'])) {
-                if (preg_match("#^{$route['pattern']}$#i", $request, $matches)) {
+        foreach ($this->collection->all() as $route) {
+            $methods = $route->getMethods();
+            $pattern = $this->wrap($route->getPattern());
+            if (in_array($method, $methods) || in_array('any', $methods)) {
+                if (preg_match("#^{$pattern}$#i", $request, $matches)) {
                     return [
-                        'handler' => $route['handler'],
+                        'route' => $route,
                         'params' => array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY),
                     ];
                 }
             }
         }
         throw new NotFoundException("Handler not found.");
+    }
+
+    /**
+     * @param $pattern
+     */
+    protected function wrap($pattern)
+    {
+        return '/' . trim($this->getBase() . '/' . trim($pattern, '/'), '/');
     }
 }

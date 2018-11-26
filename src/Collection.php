@@ -3,32 +3,22 @@
 namespace Viloveul\Router;
 
 use Viloveul\Router\Contracts\Collection as ICollection;
+use Viloveul\Router\Contracts\Route as IRoute;
 
 class Collection implements ICollection
 {
-    /**
-     * @var string
-     */
-    protected $base = '/';
-
     /**
      * @var array
      */
     protected $collections = [];
 
     /**
-     * @param  $method
-     * @param  $pattern
-     * @param  $handler
+     * @param  IRoute  $route
      * @return mixed
      */
-    public function add($method, $pattern, $handler): ICollection
+    public function add(IRoute $route): ICollection
     {
-        $this->collections[] = [
-            'methods' => is_scalar($method) ? [strtolower($method)] : array_map('strtolower', (array) $method),
-            'pattern' => $this->wrap($pattern),
-            'handler' => $handler,
-        ];
+        $this->collections[$route->getName()] = $route;
         return $this;
     }
 
@@ -40,52 +30,30 @@ class Collection implements ICollection
         return $this->collections;
     }
 
-    public function current()
+    /**
+     * @param $name
+     */
+    public function exists($name)
     {
-        return current($this->collections);
+        return array_key_exists($name, $this->collections);
     }
 
     /**
+     * @param  $name
      * @return mixed
      */
-    public function getBase()
+    public function get($name)
     {
-        return $this->base;
-    }
-
-    public function key()
-    {
-        return key($this->collections);
-    }
-
-    public function next()
-    {
-        next($this->collections);
-    }
-
-    public function rewind()
-    {
-        reset($this->collections);
+        return $this->collections[$name];
     }
 
     /**
-     * @param $base
+     * @param ICollection $collection
      */
-    public function setBase($base)
+    public function merge(ICollection $collection)
     {
-        $this->base = $base;
-    }
-
-    public function valid(): bool
-    {
-        return null !== $this->key();
-    }
-
-    /**
-     * @param $pattern
-     */
-    protected function wrap($pattern)
-    {
-        return '/' . trim($this->getBase() . '/' . trim($pattern, '/'), '/');
+        foreach ($collection->all() as $route) {
+            $this->add($route);
+        }
     }
 }

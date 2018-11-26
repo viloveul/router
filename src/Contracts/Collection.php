@@ -2,23 +2,29 @@
 
 namespace Viloveul\Router\Contracts;
 
-use Iterator;
+use Viloveul\Router\Contracts\Route;
 
-interface Collection extends Iterator
+interface Collection
 {
     /**
-     * @param $method
-     * @param $pattern
-     * @param $handler
+     * @param Route $route
      */
-    public function add($method, $pattern, $handler): Collection;
+    public function add(Route $route): Collection;
 
     public function all();
 
-    public function getBase();
+    /**
+     * @param $name
+     */
+    public function exists($name);
 
     /**
-     * @param $base
+     * @param $name
      */
-    public function setBase($base);
+    public function get($name);
+
+    /**
+     * @param Collection $collection
+     */
+    public function merge(Collection $collection);
 }

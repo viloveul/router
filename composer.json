@@ -9,6 +9,10 @@
     }],
     "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
     "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
             "Viloveul\\Router\\": "src/"
