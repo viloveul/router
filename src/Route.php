@@ -7,6 +7,16 @@ use Viloveul\Router\Contracts\Route as IRoute;
 class Route implements IRoute
 {
     /**
+     * @var array
+     */
+    protected $after = [];
+
+    /**
+     * @var array
+     */
+    protected $before = [];
+
+    /**
      * @var mixed
      */
     protected $handler;
@@ -35,11 +45,15 @@ class Route implements IRoute
             'handler' => null,
             'methods' => 'any',
             'pattern' => '/',
+            'before' => [],
+            'after' => [],
         ], $params);
 
         $this->name = $name;
         $this->handler = $args['handler'];
         $this->pattern = $args['pattern'];
+        $this->before = $args['before'];
+        $this->after = $args['after'];
         if ($args['methods']) {
             foreach ((array) $args['methods'] as $method) {
                 $this->addMethod($method);
@@ -53,6 +67,22 @@ class Route implements IRoute
     public function addMethod($method)
     {
         $this->methods[] = $method;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAfter(): array
+    {
+        return $this->after;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBefore(): array
+    {
+        return $this->before;
     }
 
     /**
