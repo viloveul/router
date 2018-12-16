@@ -9,7 +9,7 @@ interface Collection
     /**
      * @param Route $route
      */
-    public function add(Route $route): Collection;
+    public function add(Route $route): Route;
 
     public function all();
 

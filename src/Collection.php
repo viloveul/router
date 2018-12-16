@@ -16,10 +16,10 @@ class Collection implements ICollection
      * @param  IRoute  $route
      * @return mixed
      */
-    public function add(IRoute $route): ICollection
+    public function add(IRoute $route): IRoute
     {
         $this->collections[$route->getName()] = $route;
-        return $this;
+        return $route;
     }
 
     /**

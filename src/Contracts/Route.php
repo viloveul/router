@@ -9,10 +9,6 @@ interface Route
      */
     public function addMethod($method);
 
-    public function getAfter(): array;
-
-    public function getBefore(): array;
-
     public function getHandler();
 
     public function getMethods();
