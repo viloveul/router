@@ -56,7 +56,7 @@ class Dispatcher implements IDispatcher
         $path = '/' . trim($request, '/');
         foreach ($this->collection->all() as $route) {
             $methods = $route->getMethods();
-            $pattern = $this->wrap($route->getPattern());
+            $pattern = $this->wrap(trim($route->getPattern(), '/'));
             if (in_array($method, $methods) || in_array('any', $methods)) {
                 if (preg_match("#^{$pattern}$#i", $path, $matches)) {
                     return [
