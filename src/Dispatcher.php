@@ -52,11 +52,13 @@ class Dispatcher implements IDispatcher
      */
     public function watch($method, $request)
     {
+        $method = strtolower($method);
+        $path = '/' . trim($request, '/');
         foreach ($this->collection->all() as $route) {
             $methods = $route->getMethods();
             $pattern = $this->wrap($route->getPattern());
             if (in_array($method, $methods) || in_array('any', $methods)) {
-                if (preg_match("#^{$pattern}$#i", $request, $matches)) {
+                if (preg_match("#^{$pattern}$#i", $path, $matches)) {
                     return [
                         'route' => $route,
                         'params' => array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY),
@@ -72,6 +74,6 @@ class Dispatcher implements IDispatcher
      */
     protected function wrap($pattern)
     {
-        return '/' . trim($this->getBase() . '/' . trim($pattern, '/'), '/');
+        return '/' . trim($this->getBase() . '/' . $pattern, '/');
     }
 }
