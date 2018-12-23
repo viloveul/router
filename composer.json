@@ -1,13 +1,13 @@
 {
-    "name": "zafex/viloveul-router",
+    "name": "viloveul/router",
     "description": "Router component of Viloveul.",
-    "type": "framework",
+    "type": "component",
     "license": "MIT",
     "authors": [{
         "name": "Fajrul Akbar Zuhdi",
         "email": "fajrulaz@gmail.com"
     }],
-    "keywords": ["framework", "micro", "zafex", "viloveul", "fajrulaz", "router"],
+    "keywords": ["component", "zafex", "viloveul", "fajrulaz", "router"],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
