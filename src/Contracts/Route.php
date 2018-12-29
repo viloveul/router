@@ -13,7 +13,5 @@ interface Route
 
     public function getMethods();
 
-    public function getName();
-
     public function getPattern();
 }

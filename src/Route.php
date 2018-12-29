@@ -19,31 +19,24 @@ class Route implements IRoute
     /**
      * @var mixed
      */
-    protected $name;
-
-    /**
-     * @var mixed
-     */
     protected $pattern;
 
     /**
-     * @param array $params
+     * @param $name
+     * @param $pattern
+     * @param $params
      */
-    public function __construct($name, array $params = [])
+    public function __construct($pattern, $params)
     {
-        $args = array_merge([
-            'handler' => null,
-            'methods' => 'any',
-            'pattern' => '/',
-        ], $params);
+        extract($this->normalizeParams($params), EXTR_SKIP);
 
-        $this->name = $name;
-        $this->handler = $args['handler'];
-        $this->pattern = $args['pattern'];
-        if ($args['methods']) {
-            foreach ((array) $args['methods'] as $method) {
-                $this->addMethod($method);
-            }
+        $this->handler = $handler;
+        $this->addMethod($method);
+
+        if (strpos($pattern, '{:') !== false) {
+            $this->pattern = preg_replace('~{:(\w+)}~', '(?<\1>[^/]+)', $pattern);
+        } else {
+            $this->pattern = $pattern;
         }
     }
 
@@ -52,7 +45,9 @@ class Route implements IRoute
      */
     public function addMethod($method)
     {
-        $this->methods[] = $method;
+        $methods = preg_split('/\|/', $method, -1, PREG_SPLIT_NO_EMPTY);
+        $this->methods = array_merge($methods, $this->methods);
+        return $this;
     }
 
     /**
@@ -74,16 +69,27 @@ class Route implements IRoute
     /**
      * @return mixed
      */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getPattern()
     {
         return $this->pattern;
+    }
+
+    /**
+     * @param $args
+     */
+    protected function normalizeParams($args)
+    {
+        if (is_array($args) && !is_callable($args)) {
+            $params = array_merge([
+                'handler' => null,
+                'method' => 'any',
+            ], $args);
+        } else {
+            $params = [
+                'handler' => $args,
+                'method' => 'get|post',
+            ];
+        }
+        return $params;
     }
 }
