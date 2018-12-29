@@ -2,6 +2,7 @@
 
 namespace Viloveul\Router;
 
+use Viloveul\Router\ConflictException;
 use Viloveul\Router\Contracts\Collection as ICollection;
 use Viloveul\Router\Contracts\Route as IRoute;
 
@@ -13,19 +14,23 @@ class Collection implements ICollection
     protected $collections = [];
 
     /**
-     * @param  IRoute  $route
-     * @return mixed
+     * @param $name
+     * @param IRoute       $route
+     * @param $overwrite
      */
-    public function add(IRoute $route): IRoute
+    public function add($name, IRoute $route, $overwrite = false): IRoute
     {
-        $this->collections[$route->getName()] = $route;
+        if ($this->exists($name) && $overwrite === false) {
+            throw new ConflictException("Route with name {$name} already exists.");
+        }
+        $this->collections[$name] = $route;
         return $route;
     }
 
     /**
      * @return mixed
      */
-    public function all()
+    public function all(): array
     {
         return $this->collections;
     }
@@ -33,7 +38,7 @@ class Collection implements ICollection
     /**
      * @param $name
      */
-    public function exists($name)
+    public function exists($name): bool
     {
         return array_key_exists($name, $this->collections);
     }
@@ -42,18 +47,20 @@ class Collection implements ICollection
      * @param  $name
      * @return mixed
      */
-    public function get($name)
+    public function get($name): IRoute
     {
         return $this->collections[$name];
     }
 
     /**
-     * @param ICollection $collection
+     * @param ICollection  $collection
+     * @param $overwrite
      */
-    public function merge(ICollection $collection)
+    public function merge(ICollection $collection, $overwrite = false): ICollection
     {
-        foreach ($collection->all() as $route) {
-            $this->add($route);
+        foreach ($collection->all() as $name => $route) {
+            $this->add($name, $route, $overwrite);
         }
+        return $this;
     }
 }

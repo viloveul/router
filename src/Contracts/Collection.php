@@ -7,24 +7,27 @@ use Viloveul\Router\Contracts\Route;
 interface Collection
 {
     /**
-     * @param Route $route
+     * @param $name
+     * @param Route        $route
+     * @param $overwrite
      */
-    public function add(Route $route): Route;
+    public function add($name, Route $route, $overwrite = false): Route;
 
-    public function all();
+    public function all(): array;
 
     /**
      * @param $name
      */
-    public function exists($name);
+    public function exists($name): bool;
 
     /**
      * @param $name
      */
-    public function get($name);
+    public function get($name): Route;
 
     /**
-     * @param Collection $collection
+     * @param self         $collection
+     * @param $overwrite
      */
-    public function merge(Collection $collection);
+    public function merge(self $collection, $overwrite = false): self;
 }
