@@ -19,6 +19,11 @@ class Route implements IRoute
     /**
      * @var mixed
      */
+    protected $name = null;
+
+    /**
+     * @var mixed
+     */
     protected $pattern;
 
     /**
@@ -30,14 +35,9 @@ class Route implements IRoute
     {
         extract($this->normalizeParams($params), EXTR_SKIP);
 
-        $this->handler = $handler;
+        $this->setHandler($handler);
         $this->addMethod($method);
-
-        if (strpos($pattern, '{:') !== false) {
-            $this->pattern = preg_replace('~{:(\w+)}~', '(?<\1>[^/]+)', $pattern);
-        } else {
-            $this->pattern = $pattern;
-        }
+        $this->setPattern($pattern);
     }
 
     /**
@@ -69,9 +69,45 @@ class Route implements IRoute
     /**
      * @return mixed
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPattern()
     {
         return $this->pattern;
+    }
+
+    /**
+     * @param $handler
+     */
+    public function setHandler($handler)
+    {
+        $this->handler = $handler;
+    }
+
+    /**
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param $pattern
+     */
+    public function setPattern($pattern)
+    {
+        if (strpos($pattern, '{:') !== false) {
+            $this->pattern = preg_replace('~{:(\w+)}~', '(?<\1>[^/]+)', $pattern);
+        } else {
+            $this->pattern = $pattern;
+        }
     }
 
     /**

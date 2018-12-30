@@ -31,26 +31,10 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * @return mixed
-     */
-    public function getBase()
-    {
-        return $this->base;
-    }
-
-    /**
-     * @param $base
-     */
-    public function setBase($base)
-    {
-        $this->base = $base;
-    }
-
-    /**
      * @param $method
      * @param $request
      */
-    public function watch($method, $request)
+    public function dispatch($method, $request)
     {
         $method = strtolower($method);
         $path = '/' . trim($request, '/');
@@ -67,6 +51,22 @@ class Dispatcher implements IDispatcher
             }
         }
         throw new NotFoundException("Handler not found.");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBase()
+    {
+        return $this->base;
+    }
+
+    /**
+     * @param $base
+     */
+    public function setBase($base)
+    {
+        $this->base = $base;
     }
 
     /**

@@ -23,6 +23,9 @@ class Collection implements ICollection
         if ($this->exists($name) && $overwrite === false) {
             throw new ConflictException("Route with name {$name} already exists.");
         }
+        if (null === $route->getName()) {
+            $route->setName($name);
+        }
         $this->collections[$name] = $route;
         return $route;
     }
