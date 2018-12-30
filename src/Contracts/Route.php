@@ -13,5 +13,22 @@ interface Route
 
     public function getMethods();
 
+    public function getName();
+
     public function getPattern();
+
+    /**
+     * @param $handler
+     */
+    public function setHandler($handler);
+
+    /**
+     * @param $name
+     */
+    public function setName($name);
+
+    /**
+     * @param $pattern
+     */
+    public function setPattern($pattern);
 }
