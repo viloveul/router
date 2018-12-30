@@ -20,6 +20,8 @@ class MyController
 }
 // declare hello handler from my controller
 $helloRoute = new Viloveul\Router\Route('/hello/:name', [MyController::class, 'look']);
+// or 
+// $helloRoute = new Viloveul\Router\Route('GET /hello/:name', [MyController::class, 'look']);
 // add foo to collection
 $collection->add('hello', $helloRoute);
 
