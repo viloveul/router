@@ -35,9 +35,14 @@ class Route implements IRoute
     {
         extract($this->normalizeParams($params), EXTR_SKIP);
 
+        $parts = explode(' ', $pattern, 2);
+        $this->setPattern(array_pop($parts));
         $this->setHandler($handler);
-        $this->addMethod($method);
-        $this->setPattern($pattern);
+        if (isset($parts[0])) {
+            $this->addMethod($parts[0]);
+        } else {
+            $this->addMethod($method);
+        }
     }
 
     /**
@@ -45,7 +50,7 @@ class Route implements IRoute
      */
     public function addMethod($method)
     {
-        $methods = preg_split('/\|/', $method, -1, PREG_SPLIT_NO_EMPTY);
+        $methods = preg_split('/\|/', strtolower($method), -1, PREG_SPLIT_NO_EMPTY);
         $this->methods = array_merge($methods, $this->methods);
         return $this;
     }
