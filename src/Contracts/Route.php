@@ -15,6 +15,8 @@ interface Route
 
     public function getName();
 
+    public function getParams(): array;
+
     public function getPattern();
 
     /**
@@ -26,6 +28,11 @@ interface Route
      * @param $name
      */
     public function setName($name);
+
+    /**
+     * @param array $params
+     */
+    public function setParams(array $params);
 
     /**
      * @param $pattern

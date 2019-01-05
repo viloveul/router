@@ -22,6 +22,11 @@ class Route implements IRoute
     protected $name = null;
 
     /**
+     * @var array
+     */
+    protected $params = [];
+
+    /**
      * @var mixed
      */
     protected $pattern;
@@ -82,6 +87,14 @@ class Route implements IRoute
     /**
      * @return mixed
      */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getPattern()
     {
         return $this->pattern;
@@ -101,6 +114,14 @@ class Route implements IRoute
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @param array $params
+     */
+    public function setParams(array $params)
+    {
+        $this->params = array_replace_recursive($this->params, $params);
     }
 
     /**
