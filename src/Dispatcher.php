@@ -43,10 +43,8 @@ class Dispatcher implements IDispatcher
             $pattern = $this->wrap(trim($route->getPattern(), '/'));
             if (in_array($method, $methods) || in_array('any', $methods)) {
                 if (preg_match("#^{$pattern}$#i", $path, $matches) && $route->getHandler() !== null) {
-                    return [
-                        'route' => $route,
-                        'params' => array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY),
-                    ];
+                    $route->setParams(array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY));
+                    return $route;
                 }
             }
         }
