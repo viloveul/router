@@ -1,9 +1,14 @@
+
 # Installation
+
 make sure your php version > 7.0
+
 ```bash
 composer require viloveul/router
 ```
+
 ## HOW
+
 ```php
 require __DIR__ . '/vendor/autoload.php';
 
@@ -18,6 +23,7 @@ class MyController
 		return $name;
 	}
 }
+
 // declare hello handler from my controller
 $helloRoute = new Viloveul\Router\Route('/hello/:name', [MyController::class, 'look']);
 // or 

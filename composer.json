@@ -1,24 +1,26 @@
 {
     "name": "viloveul/router",
-    "description": "Router component of Viloveul.",
-    "type": "component",
+    "description": "Http Router for handling request path",
+    "type": "library",
     "license": "MIT",
+    "keywords": ["zafex", "viloveul", "fajrulaz", "router", "component", "library"],
+    "homepage": "http://www.viloveul.com",
+    "readme": "README.MD",
     "authors": [{
         "name": "Fajrul Akbar Zuhdi",
         "email": "fajrulaz@gmail.com"
     }],
-    "keywords": ["component", "zafex", "viloveul", "fajrulaz", "router"],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "sort-packages": true
     },
-    "require": {
-        "php": "~7.0"
-    },
     "autoload": {
         "psr-4": {
             "Viloveul\\Router\\": "src/"
         }
+    },
+    "require": {
+        "php": "~7.0"
     }
 }
