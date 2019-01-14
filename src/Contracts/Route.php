@@ -7,35 +7,42 @@ interface Route
     /**
      * @param $method
      */
-    public function addMethod($method);
+    public function addMethod($method): self;
+
+    /**
+     * @param $middleware
+     */
+    public function addMiddleware($middleware): self;
 
     public function getHandler();
 
-    public function getMethods();
+    public function getMethods(): array;
 
-    public function getName();
+    public function getMiddlewares(): array;
+
+    public function getName(): string;
 
     public function getParams(): array;
 
-    public function getPattern();
+    public function getPattern(): string;
 
     /**
      * @param $handler
      */
-    public function setHandler($handler);
+    public function setHandler($handler): void;
 
     /**
      * @param $name
      */
-    public function setName($name);
+    public function setName(string $name): void;
 
     /**
      * @param array $params
      */
-    public function setParams(array $params);
+    public function setParams(array $params): void;
 
     /**
      * @param $pattern
      */
-    public function setPattern($pattern);
+    public function setPattern(string $pattern): void;
 }
