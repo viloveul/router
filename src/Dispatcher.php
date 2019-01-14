@@ -54,7 +54,7 @@ class Dispatcher implements IDispatcher
     /**
      * @return mixed
      */
-    public function getBase()
+    public function getBase(): string
     {
         return $this->base;
     }
@@ -62,7 +62,7 @@ class Dispatcher implements IDispatcher
     /**
      * @param $base
      */
-    public function setBase($base)
+    public function setBase($base): void
     {
         $this->base = $base;
     }

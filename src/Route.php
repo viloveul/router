@@ -17,6 +17,11 @@ class Route implements IRoute
     protected $methods = [];
 
     /**
+     * @var array
+     */
+    protected $middlewares = [];
+
+    /**
      * @var mixed
      */
     protected $name = null;
@@ -45,18 +50,43 @@ class Route implements IRoute
         $this->setHandler($handler);
         if (isset($parts[0])) {
             $this->addMethod($parts[0]);
-        } else {
+        }
+        if (!empty($method)) {
             $this->addMethod($method);
+        }
+        if (!empty($middleware)) {
+            $this->addMiddleware($middleware);
         }
     }
 
     /**
      * @param $method
      */
-    public function addMethod($method)
+    public function addMethod($method): IRoute
     {
+        if (is_array($method)) {
+            foreach ($method as $v) {
+                $this->addMethod($v);
+            }
+            return $this;
+        }
         $methods = preg_split('/\|/', strtolower($method), -1, PREG_SPLIT_NO_EMPTY);
         $this->methods = array_merge($methods, $this->methods);
+        return $this;
+    }
+
+    /**
+     * @param $middleware
+     */
+    public function addMiddleware($middleware): IRoute
+    {
+        if (is_array($middleware) && !is_callable($middleware)) {
+            foreach ($middleware as $value) {
+                $this->addMiddleware($middleware);
+            }
+            return $this;
+        }
+        $this->middlewares[] = $middleware;
         return $this;
     }
 
@@ -71,7 +101,7 @@ class Route implements IRoute
     /**
      * @return mixed
      */
-    public function getMethods()
+    public function getMethods(): array
     {
         return $this->methods;
     }
@@ -79,9 +109,17 @@ class Route implements IRoute
     /**
      * @return mixed
      */
-    public function getName()
+    public function getMiddlewares(): array
     {
-        return $this->name;
+        return $this->middlewares;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName(): string
+    {
+        return is_null($this->name) ? '' : $this->name;
     }
 
     /**
@@ -95,7 +133,7 @@ class Route implements IRoute
     /**
      * @return mixed
      */
-    public function getPattern()
+    public function getPattern(): string
     {
         return $this->pattern;
     }
@@ -103,7 +141,7 @@ class Route implements IRoute
     /**
      * @param $handler
      */
-    public function setHandler($handler)
+    public function setHandler($handler): void
     {
         $this->handler = $handler;
     }
@@ -111,7 +149,7 @@ class Route implements IRoute
     /**
      * @param $name
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -119,7 +157,7 @@ class Route implements IRoute
     /**
      * @param array $params
      */
-    public function setParams(array $params)
+    public function setParams(array $params): void
     {
         $this->params = array_replace_recursive($this->params, $params);
     }
@@ -127,7 +165,7 @@ class Route implements IRoute
     /**
      * @param $pattern
      */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern): void
     {
         if (strpos($pattern, '{:') !== false) {
             $this->pattern = preg_replace('~{:(\w+)}~', '(?<\1>[^/]+)', $pattern);
@@ -139,17 +177,19 @@ class Route implements IRoute
     /**
      * @param $args
      */
-    protected function normalizeParams($args)
+    protected function normalizeParams($args): array
     {
         if (is_array($args) && !is_callable($args)) {
-            $params = array_merge([
+            $params = array_replace_recursive([
                 'handler' => null,
-                'method' => 'any',
+                'method' => null,
+                'middleware' => null,
             ], $args);
         } else {
             $params = [
                 'handler' => $args,
-                'method' => 'get|post',
+                'method' => null,
+                'middleware' => null,
             ];
         }
         return $params;

@@ -10,10 +10,10 @@ interface Dispatcher
      */
     public function dispatch($method, $request);
 
-    public function getBase();
+    public function getBase(): string;
 
     /**
      * @param $base
      */
-    public function setBase($base);
+    public function setBase($base): void;
 }
