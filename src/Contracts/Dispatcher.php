@@ -2,6 +2,8 @@
 
 namespace Viloveul\Router\Contracts;
 
+use Viloveul\Router\Contracts\Route;
+
 interface Dispatcher
 {
     /**
@@ -11,6 +13,8 @@ interface Dispatcher
     public function dispatch($method, $request);
 
     public function getBase(): string;
+
+    public function routed(): Route;
 
     /**
      * @param $base
