@@ -15,12 +15,20 @@
     "config": {
         "sort-packages": true
     },
+    "require": {
+        "php": "~7.0"
+    },
+    "require-dev": {
+        "codeception/base": "^2.5"
+    },
     "autoload": {
         "psr-4": {
             "Viloveul\\Router\\": "src/"
         }
     },
-    "require": {
-        "php": "~7.0"
+    "autoload-dev": {
+        "psr-4": {
+            "ViloveulRouterExample\\": "example/"
+        }
     }
 }
