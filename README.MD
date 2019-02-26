@@ -25,14 +25,14 @@ class MyController
 }
 
 // declare hello handler from my controller
-$helloRoute = new Viloveul\Router\Route('/hello/:name', [MyController::class, 'look']);
+$helloRoute = new Viloveul\Router\Route('GET /hello/:name', [MyController::class, 'look']);
 // or 
 // $helloRoute = new Viloveul\Router\Route('GET /hello/:name', [MyController::class, 'look']);
 // add foo to collection
 $collection->add('hello', $helloRoute);
 
 // declare foo handler
-$fooRoute = new Viloveul\Router\Route('/foo/{:bar}', function($bar) {
+$fooRoute = new Viloveul\Router\Route('GET /foo/{:bar}', function($bar) {
 	return $bar;
 });
 // add foo to collection
@@ -53,9 +53,9 @@ $router = new Viloveul\Router\Dispatcher($collection);
 
 // in action
 
-$route1 = $router->dispatch('GET', '/hello/zafex')->route();
-$route2 = $router->dispatch('GET', '/foo/hello-world')->route();
-$route3 = $router->dispatch('GET', '/test/fajrul-akbar-zuhdi')->route();
+$route1 = $router->dispatch('GET', '/hello/zafex')->routed();
+$route2 = $router->dispatch('GET', '/foo/hello-world')->routed();
+$route3 = $router->dispatch('GET', '/test/fajrul-akbar-zuhdi')->routed();
 
 var_dump($route1, $route2, $route3);
 
