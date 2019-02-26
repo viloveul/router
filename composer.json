@@ -19,16 +19,11 @@
         "php": "~7.0"
     },
     "require-dev": {
-        "codeception/base": "^2.5"
+        "codeception/codeception": "^2.5"
     },
     "autoload": {
         "psr-4": {
             "Viloveul\\Router\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ViloveulRouterExample\\": "example/"
         }
     }
 }
