@@ -9,16 +9,9 @@ interface Route
      */
     public function addMethod($method): self;
 
-    /**
-     * @param $middleware
-     */
-    public function addMiddleware($middleware): self;
-
     public function getHandler();
 
     public function getMethods(): array;
-
-    public function getMiddlewares(): array;
 
     public function getName(): string;
 
