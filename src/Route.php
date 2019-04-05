@@ -17,11 +17,6 @@ class Route implements IRoute
     protected $methods = [];
 
     /**
-     * @var array
-     */
-    protected $middlewares = [];
-
-    /**
      * @var mixed
      */
     protected $name = null;
@@ -54,9 +49,6 @@ class Route implements IRoute
         if (!empty($method)) {
             $this->addMethod($method);
         }
-        if (!empty($middleware)) {
-            $this->addMiddleware($middleware);
-        }
     }
 
     /**
@@ -72,21 +64,6 @@ class Route implements IRoute
         }
         $methods = preg_split('/\|/', strtolower($method), -1, PREG_SPLIT_NO_EMPTY);
         $this->methods = array_merge($methods, $this->methods);
-        return $this;
-    }
-
-    /**
-     * @param $middleware
-     */
-    public function addMiddleware($middleware): IRoute
-    {
-        if (is_array($middleware) && !is_callable($middleware)) {
-            foreach ($middleware as $value) {
-                $this->addMiddleware($middleware);
-            }
-            return $this;
-        }
-        $this->middlewares[] = $middleware;
         return $this;
     }
 
@@ -109,17 +86,9 @@ class Route implements IRoute
     /**
      * @return mixed
      */
-    public function getMiddlewares(): array
-    {
-        return $this->middlewares;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getName(): string
     {
-        return is_null($this->name) ? '' : $this->name;
+        return null === $this->name ? '' : $this->name;
     }
 
     /**
@@ -183,13 +152,11 @@ class Route implements IRoute
             $params = array_replace_recursive([
                 'handler' => null,
                 'method' => null,
-                'middleware' => null,
             ], $args);
         } else {
             $params = [
                 'handler' => $args,
                 'method' => null,
-                'middleware' => null,
             ];
         }
         return $params;

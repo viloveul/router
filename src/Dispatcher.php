@@ -3,10 +3,10 @@
 namespace Viloveul\Router;
 
 use Viloveul\Router\Collection;
+use Viloveul\Router\NotFoundException;
+use Viloveul\Router\Contracts\Route as IRoute;
 use Viloveul\Router\Contracts\Collection as ICollection;
 use Viloveul\Router\Contracts\Dispatcher as IDispatcher;
-use Viloveul\Router\Contracts\Route as IRoute;
-use Viloveul\Router\NotFoundException;
 
 class Dispatcher implements IDispatcher
 {
@@ -30,8 +30,8 @@ class Dispatcher implements IDispatcher
      */
     public function __construct(ICollection $collection = null)
     {
-        if (is_null($collection)) {
-            $collection = new Collection;
+        if (null === $collection) {
+            $collection = new Collection();
         }
         $this->collection = $collection;
     }

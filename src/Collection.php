@@ -3,8 +3,8 @@
 namespace Viloveul\Router;
 
 use Viloveul\Router\ConflictException;
-use Viloveul\Router\Contracts\Collection as ICollection;
 use Viloveul\Router\Contracts\Route as IRoute;
+use Viloveul\Router\Contracts\Collection as ICollection;
 
 class Collection implements ICollection
 {
