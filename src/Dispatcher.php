@@ -37,10 +37,11 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * @param $method
-     * @param $request
+     * @param string $method
+     * @param string $request
+     * @param bool   $throw
      */
-    public function dispatch($method, $request)
+    public function dispatch(string $method, string $request, bool $throw = true)
     {
         $method = strtolower($method);
         $path = '/' . trim($request, '/');
@@ -51,11 +52,14 @@ class Dispatcher implements IDispatcher
                 if (preg_match("#^{$pattern}$#i", $path, $matches) && $route->getHandler() !== null) {
                     $route->setParams(array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY));
                     $this->route = $route;
-                    return $this;
+                    return true;
                 }
             }
         }
-        throw new NotFoundException("Handler not found.");
+        if ($throw !== false) {
+            throw new NotFoundException("Handler not found.");
+        }
+        return false;
     }
 
     /**

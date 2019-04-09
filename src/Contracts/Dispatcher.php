@@ -7,10 +7,11 @@ use Viloveul\Router\Contracts\Route;
 interface Dispatcher
 {
     /**
-     * @param $method
-     * @param $request
+     * @param string $method
+     * @param string $request
+     * @param bool   $throw
      */
-    public function dispatch($method, $request);
+    public function dispatch(string $method, string $request, bool $throw);
 
     public function getBase(): string;
 
