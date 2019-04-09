@@ -53,9 +53,14 @@ $router = new Viloveul\Router\Dispatcher($collection);
 
 // in action
 
-$route1 = $router->dispatch('GET', '/hello/zafex')->routed();
-$route2 = $router->dispatch('GET', '/foo/hello-world')->routed();
-$route3 = $router->dispatch('GET', '/test/fajrul-akbar-zuhdi')->routed();
+$router->dispatch('GET', '/hello/zafex');
+$route1 = $router->routed();
+
+$router->dispatch('GET', '/foo/hello-world');
+$route2 = $router->routed();
+
+$router->dispatch('GET', '/test/fajrul-akbar-zuhdi');
+$route3 = $router->routed();
 
 var_dump($route1, $route2, $route3);
 
