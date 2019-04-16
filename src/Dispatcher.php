@@ -4,6 +4,7 @@ namespace Viloveul\Router;
 
 use Viloveul\Router\Collection;
 use Viloveul\Router\NotFoundException;
+use Psr\Http\Message\UriInterface as IUri;
 use Viloveul\Router\Contracts\Route as IRoute;
 use Viloveul\Router\Contracts\Collection as ICollection;
 use Viloveul\Router\Contracts\Dispatcher as IDispatcher;
@@ -38,13 +39,13 @@ class Dispatcher implements IDispatcher
 
     /**
      * @param string $method
-     * @param string $request
+     * @param IUri   $uri
      * @param bool   $throw
      */
-    public function dispatch(string $method, string $request, bool $throw = true)
+    public function dispatch(string $method, IUri $uri, bool $throw = true)
     {
         $method = strtolower($method);
-        $path = '/' . trim($request, '/');
+        $path = $uri->getPath();
         foreach ($this->collection->all() as $route) {
             $methods = $route->getMethods();
             $pattern = $this->wrap(trim($route->getPattern(), '/'));

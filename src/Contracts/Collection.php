@@ -2,32 +2,20 @@
 
 namespace Viloveul\Router\Contracts;
 
+use Countable;
 use Viloveul\Router\Contracts\Route;
 
-interface Collection
+interface Collection extends Countable
 {
     /**
-     * @param $name
-     * @param Route        $route
-     * @param $overwrite
+     * @param Route $route
      */
-    public function add($name, Route $route, $overwrite = false): Route;
+    public function add(Route $route): Route;
 
     public function all(): array;
 
     /**
-     * @param $name
+     * @param self $collection
      */
-    public function exists($name): bool;
-
-    /**
-     * @param $name
-     */
-    public function get($name): Route;
-
-    /**
-     * @param self         $collection
-     * @param $overwrite
-     */
-    public function merge(self $collection, $overwrite = false): self;
+    public function merge(self $collection): self;
 }
