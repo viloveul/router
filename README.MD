@@ -29,14 +29,14 @@ $helloRoute = new Viloveul\Router\Route('GET /hello/:name', [MyController::class
 // or 
 // $helloRoute = new Viloveul\Router\Route('GET /hello/:name', [MyController::class, 'look']);
 // add foo to collection
-$collection->add('hello', $helloRoute);
+$collection->add($helloRoute);
 
 // declare foo handler
 $fooRoute = new Viloveul\Router\Route('GET /foo/{:bar}', function($bar) {
 	return $bar;
 });
 // add foo to collection
-$collection->add('foo', $fooRoute);
+$collection->add($fooRoute);
 
 // declare test handler
 $testRoute = new Viloveul\Router\Route('/test/:name', [
@@ -46,7 +46,7 @@ $testRoute = new Viloveul\Router\Route('/test/:name', [
 	}
 ]);
 // add test to collection
-$collection->add('test', $testRoute);
+$collection->add($testRoute);
 
 // init object dispatcher with collection
 $router = new Viloveul\Router\Dispatcher($collection);

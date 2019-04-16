@@ -5,9 +5,14 @@ namespace Viloveul\Router\Contracts;
 interface Route
 {
     /**
-     * @param $method
+     * @param string $method
      */
-    public function addMethod($method): self;
+    public function addMethod(string $method): self;
+
+    /**
+     * @param string $tag
+     */
+    public function addTag(string $tag): self;
 
     public function getHandler();
 
@@ -18,6 +23,8 @@ interface Route
     public function getParams(): array;
 
     public function getPattern(): string;
+
+    public function getTags(): array;
 
     /**
      * @param $handler

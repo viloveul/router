@@ -32,6 +32,11 @@ class Route implements IRoute
     protected $pattern;
 
     /**
+     * @var array
+     */
+    protected $tags = [];
+
+    /**
      * @param $name
      * @param $pattern
      * @param $params
@@ -49,21 +54,30 @@ class Route implements IRoute
         if (!empty($method)) {
             $this->addMethod($method);
         }
+        if (!empty($name)) {
+            $this->setName($name);
+        }
     }
 
     /**
-     * @param $method
+     * @param  string  $method
+     * @return mixed
      */
-    public function addMethod($method): IRoute
+    public function addMethod(string $method): IRoute
     {
-        if (is_array($method)) {
-            foreach ($method as $v) {
-                $this->addMethod($v);
-            }
-            return $this;
-        }
         $methods = preg_split('/\|/', strtolower($method), -1, PREG_SPLIT_NO_EMPTY);
         $this->methods = array_merge($methods, $this->methods);
+        return $this;
+    }
+
+    /**
+     * @param  string  $method
+     * @return mixed
+     */
+    public function addTag(string $method): IRoute
+    {
+        $tags = preg_split('/\|/', strtolower($tag), -1, PREG_SPLIT_NO_EMPTY);
+        $this->tags = array_merge($tags, $this->tags);
         return $this;
     }
 
@@ -105,6 +119,14 @@ class Route implements IRoute
     public function getPattern(): string
     {
         return $this->pattern;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
     }
 
     /**
@@ -152,11 +174,13 @@ class Route implements IRoute
             $params = array_replace_recursive([
                 'handler' => null,
                 'method' => null,
+                'name' => null,
             ], $args);
         } else {
             $params = [
                 'handler' => $args,
                 'method' => null,
+                'name' => null,
             ];
         }
         return $params;
