@@ -53,13 +53,13 @@ $router = new Viloveul\Router\Dispatcher($collection);
 
 // in action
 
-$router->dispatch('GET', '/hello/zafex');
+$router->dispatch('GET', Zend\Diactoros\UriFactory::createUri('/hello/zafex'));
 $route1 = $router->routed();
 
-$router->dispatch('GET', '/foo/hello-world');
+$router->dispatch('GET', Zend\Diactoros\UriFactory::createUri('/foo/hello-world'));
 $route2 = $router->routed();
 
-$router->dispatch('GET', '/test/fajrul-akbar-zuhdi');
+$router->dispatch('GET', Zend\Diactoros\UriFactory::createUri('/test/fajrul-akbar-zuhdi'));
 $route3 = $router->routed();
 
 var_dump($route1, $route2, $route3);
