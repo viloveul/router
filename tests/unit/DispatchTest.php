@@ -37,7 +37,7 @@ class DispatchTest extends \Codeception\Test\Unit
         $collection = new Viloveul\Router\Collection();
         $collection->add($foo);
         $router = new Viloveul\Router\Dispatcher($collection);
-        $router->dispatch('GET', Zend\Diactoros\UriFactory::createUri('/foo/dor'));
+        $router->dispatch('GET', new Zend\Diactoros\Uri('/foo/dor'));
         $route = $router->routed();
         $this->tester->assertEquals('foo', $route->getName());
     }
@@ -51,7 +51,7 @@ class DispatchTest extends \Codeception\Test\Unit
             $collection = new Viloveul\Router\Collection();
             $collection->add($foo);
             $router = new Viloveul\Router\Dispatcher($collection);
-            $router->dispatch('GET', Zend\Diactoros\UriFactory::createUri('/foot/dor'));
+            $router->dispatch('GET', new Zend\Diactoros\Uri('/foot/dor'));
         });
     }
 }
