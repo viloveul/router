@@ -14,7 +14,7 @@ class Dispatcher implements IDispatcher
     /**
      * @var string
      */
-    protected $base = '/';
+    protected $base = '';
 
     /**
      * @var mixed
@@ -45,10 +45,10 @@ class Dispatcher implements IDispatcher
     public function dispatch(string $method, IUri $uri, bool $throw = true)
     {
         $method = strtolower($method);
-        $path = $uri->getPath();
+        $path = $this->extractPathRequestUri($uri);
         foreach ($this->collection->all() as $route) {
             $methods = $route->getMethods();
-            $pattern = $this->wrap(trim($route->getPattern(), '/'));
+            $pattern = '/' . trim($route->getPattern(), '/');
             if (in_array($method, $methods) || in_array('any', $methods)) {
                 if (preg_match("#^{$pattern}$#i", $path, $matches) && $route->getHandler() !== null) {
                     $route->setParams(array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY));
@@ -80,18 +80,25 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * @param $base
+     * @param string $base
      */
-    public function setBase($base): void
+    public function setBase(string $base): void
     {
-        $this->base = $base;
+        $this->base = trim(parse_url($base, PHP_URL_PATH), '/');
     }
 
     /**
-     * @param $pattern
+     * @param IUri $uri
      */
-    protected function wrap($pattern)
+    protected function extractPathRequestUri(IUri $uri): string
     {
-        return '/' . trim($this->getBase() . '/' . $pattern, '/');
+        $path = trim($uri->getPath(), '/');
+        if (!$this->getBase()) {
+            return '/' . $path;
+        } elseif (strpos($path, $this->getBase() . '/') === 0 || $path === $this->getBase()) {
+            return '/' . trim(substr($path, strlen($this->getBase())), '/');
+        } else {
+            return '';
+        }
     }
 }

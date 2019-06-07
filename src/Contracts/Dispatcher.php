@@ -19,7 +19,7 @@ interface Dispatcher
     public function routed(): Route;
 
     /**
-     * @param $base
+     * @param string $base
      */
-    public function setBase($base): void;
+    public function setBase(string $base): void;
 }
