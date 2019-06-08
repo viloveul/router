@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://travis-ci.org/viloveul/router">
-<img src="https://travis-ci.org/viloveul/router.svg" alt="Build Status">
+<a href="https://travis-ci.com/viloveul/router">
+<img src="https://travis-ci.com/viloveul/router.svg" alt="Build Status">
 </a>
 <a href="https://packagist.org/packages/viloveul/router">
 <img src="https://poser.pugx.org/viloveul/router/d/total.svg" alt="Total Downloads">
