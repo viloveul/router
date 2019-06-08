@@ -1,3 +1,14 @@
+<p align="center">
+<a href="https://travis-ci.org/viloveul/router">
+<img src="https://travis-ci.org/viloveul/router.svg" alt="Build Status">
+</a>
+<a href="https://packagist.org/packages/viloveul/router">
+<img src="https://poser.pugx.org/viloveul/router/d/total.svg" alt="Total Downloads">
+</a>
+<a href="https://packagist.org/packages/viloveul/router">
+<img src="https://poser.pugx.org/viloveul/router/v/stable.svg" alt="Latest Stable Version">
+</a>
+</p>
 
 # Installation
 
